@@ -1,0 +1,23 @@
+{
+  "name": "agm-chrome-extension",
+  "version": "1.0",
+  "description": "Custom scripts and features for Chrome and some specific websites",
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": false
+  },
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "options_page": "options/options.html",
+  "content_scripts": [
+    {
+      "matches": ["*://elpais.com/*"],
+      "js": ["content/elpais.js"]
+    }
+  ],
+  "manifest_version": 2
+}
