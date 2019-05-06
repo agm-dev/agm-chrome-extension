@@ -20,26 +20,28 @@ const actions = {
   }
 }
 
-const title = state => h('h1', {}, `${state.title}`)
-const feature = item => (state, actions) => h('tr', {}, [
-  h('td', {}, item.name),
-  h('td', {}, item.enabled ? 'enabled' : 'disabled'),
-  h('td', {}, [
-    h('button', { onclick: () => actions.toggleFeature(item) }, 'toggle'),
+const title = state => h('div', { className: 'row' }, [
+  h('h1', { className: 'col-12 text-center text-uppercase' }, `${state.title}`)
+])
+const feature = (item, index) => (state, actions) => h('tr', {}, [
+  h('th', { scope: 'row', className: 'align-middle' }, `${index + 1}`),
+  h('td', { className: 'align-middle' }, item.name),
+  h('td', { className: 'align-middle' }, [
+    h('button', { className: `btn ${item.enabled ? 'btn-success' : 'btn-danger'}`, onclick: () => actions.toggleFeature(item) }, item.enabled ? 'Enabled' : 'Disabled')
   ]),
 ])
-const features = (state, actions) => h('table', {}, [
-  h('thead', {}, [
+const features = (state, actions) => h('table', { className: 'table table-striped' }, [
+  h('thead', { className: 'thead-dark' }, [
     h('tr', {}, [
-      h('td', {}, 'Feature'),
-      h('td', {}, 'State'),
-      h('td', {}, 'Actions'),
+      h('th', { scope: 'col' }, '#'),
+      h('th', { scope: 'col' }, 'Feature'),
+      h('th', { scope: 'col' }, 'State'),
     ])
   ]),
   h('tbody', {}, state.features.map(feature)),
 ])
 
-const view = (state, actions) => h('div', {}, [
+const view = (state, actions) => h('div', { className: 'container mt-3' }, [
   title,
   features,
 ])
