@@ -4,7 +4,8 @@ const DEFAULT_CONFIG = {
 
   },
   features: [
-    { id: 1, name: 'elpais.com anti ad blocker', enabled: true },
+    { id: 1, name: 'Elpais anti ad blocker', enabled: true },
+    { id: 2, name: 'Twitch initial mute', enabled: true },
   ],
 }
 
