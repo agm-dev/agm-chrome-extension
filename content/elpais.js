@@ -26,6 +26,38 @@
     } catch (e) {
       log('there is no overlay to be removed')
     }
+    removeSuspiciousElements();
+  }
+
+  /**
+   * They are adding divs with random class names
+   * to show anti-adblock messages...
+   * But every random class name has 12 characters length...
+   * and no spaces and underscores neither...
+   */
+  const removeSuspiciousElements = () => {
+    const isSuspicious = className => className.length === 12 && !(/\s|_/).test(className)
+
+    let rawClasses = [];
+    document.querySelectorAll('div').forEach(el => {
+      rawClasses = [...rawClasses, ...el.classList]
+    })
+    // remove duplicates
+    const uniqueClasses = [...new Set(rawClasses)]
+    const suspiciousClasses = uniqueClasses.filter(isSuspicious)
+
+    // remove all suspicious elements
+    suspiciousClasses.forEach(className => {
+      try {
+        const el = document.querySelector(`div.${className}`)
+        if (el) {
+          log('removing suspicious element...')
+          el.parentNode.removeChild(el)
+        }
+      } catch (err) {
+        log('error', err.message)
+      }
+    })
   }
 
   chrome.storage.sync.get(['features'], ({ features }) => {
