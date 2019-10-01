@@ -1,6 +1,6 @@
 {
   "name": "agm-chrome-extension",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Custom scripts and features for Chrome and some specific websites",
   "background": {
     "scripts": [
