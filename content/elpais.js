@@ -49,11 +49,11 @@
     // remove all suspicious elements
     suspiciousClasses.forEach(className => {
       try {
-        const el = document.querySelector(`div.${className}`)
-        if (el) {
+        const elements = document.querySelectorAll(`div.${className}`)
+        elements.forEach(el => {
           log('removing suspicious element...')
           el.parentNode.removeChild(el)
-        }
+        })
       } catch (err) {
         log('error', err.message)
       }
