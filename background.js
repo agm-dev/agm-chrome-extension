@@ -6,6 +6,7 @@ const DEFAULT_CONFIG = {
   features: [
     { id: 1, name: 'Elpais anti ad blocker', enabled: true },
     { id: 2, name: 'Twitch initial mute', enabled: true },
+    { id: 3, name: 'Twitch channel points clicker', enabled: true },
   ],
 }
 
