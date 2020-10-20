@@ -16,6 +16,8 @@
   const MUTE_STATE_QUERY_SELECTOR = 'span.mute-button'
   const UNMUTE_STATE_QUERY_SELECTOR = 'span.unmute-button'
 
+  const FEATURE_POINTS_AUTOCLICK_ID = 3
+
   const log = (text = '') => {
     if (!text.length) return;
     console.log(`${LOG_PREFIX} ${text}`)
@@ -61,16 +63,40 @@
     }
   }
 
+  let pointsAutoClickTimer
+
+  const channelPointsAutoClick = () => {
+    const el = document.querySelector('.tw-button')
+    const logTag = "Twitch channelPointsAutoClick"
+    if (el) {
+      simulateClick(el)
+      log(`${logTag} POP!`)
+    } else {
+      log(`${logTag} nothing to POP :(`)
+    }
+  }
+
+  // main
+
   chrome.storage.sync.get(['features'], ({ features }) => {
 
     const feature = features.find(item => item.id === FEATURE_ID)
+    const featurePointsAutoClick = features.find(item => item.id === FEATURE_POINTS_AUTOCLICK_ID)
+
     if (typeof feature !== 'undefined' && feature.enabled) {
       log(`feature '${feature.name}' with id ${feature.id} is enabled`)
       timer = setInterval(doTheTrick, 10)
-      return
+    } else {
+      log(`feature '${feature.name}' with id ${feature.id} is disabled`)
     }
-    log(`feature '${feature.name}' with id ${feature.id} is disabled`)
 
+    if (typeof featurePointsAutoClick !== 'undefined' && featurePointsAutoClick.enabled) {
+      log(`feature ${featurePointsAutoClick.name} with id ${featurePointsAutoClick.id} is enabled`)
+      const intervalMinutes = 3 * 60 * 1000
+      pointsAutoClickTimer = setInterval(channelPointsAutoClick, intervalMinutes)
+    } else {
+      log(`feature ${featurePointsAutoClick.name} with id ${featurePointsAutoClick.id} is disabled`)
+    }
   })
 
 })()
